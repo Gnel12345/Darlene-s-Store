@@ -1,0 +1,12 @@
+.checkout_left {
+    width: 76%;
+    margin-bottom: 10px;
+  }
+  .checkout_ad {
+    width: 1000px;
+  }
+  
+  .checkout {
+    display: flex;
+    background-color: white;
+  }
