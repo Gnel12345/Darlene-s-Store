@@ -1,0 +1,47 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "orders",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "deliveryEmail",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "deliveryName",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "deliveryLastName",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "deliveryAddress",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "deliveryCity",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "deliveryState",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "deliveryZipCode",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "title",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "price",
+          "order": "DESCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

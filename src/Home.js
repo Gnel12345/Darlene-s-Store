@@ -24,6 +24,7 @@ image={socks}
 rating={3}
 />
 <Product
+id="1222"
 title="Premium Socks"
 price={27.99}
 image={tmnt}
