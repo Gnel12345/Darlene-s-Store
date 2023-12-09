@@ -46,7 +46,7 @@ function Payment() {
         // generate the special stripe secret which allows us to charge a customer
         const getClientSecret = async () => {
             const response = await axios({
-                method: 'post',
+                method: 'POST',
                 // Stripe expects the total in a currencies subunits
                 url: `/payments/create?total=${getBasketTotal(basket) * 100}`
             });
@@ -69,7 +69,7 @@ function Payment() {
             payment_method: {
                 card: elements.getElement(CardElement),
             },
-        }).then(({ paymentIntent }) => {
+        }).then(({paymentIntent}) => {
             // paymentIntent = payment confirmation
             console.log('User UID:', user?.uid);
 console.log('Basket:', basket);
@@ -88,6 +88,9 @@ console.log('Payment Intent Created:', paymentIntent.created);
                 created: paymentIntent.created
            
                 });
+
+                
+
 
             
             
@@ -111,6 +114,8 @@ console.log('Payment Intent Created:', paymentIntent.created);
                     console.error('Error sending confirmation email:', error);
                 }
             };
+
+            sendConfirmationEmail();
             
             setError(null);
             setProcessing(false);
@@ -154,6 +159,7 @@ console.log('Payment Intent Created:', paymentIntent.created);
                     </div>
                     <div className='payment__address'>
                         <form>
+                        <h2>Enter your email so you can recieve a confirmation email</h2>
                             <input type="email" name="customerEmail" placeholder="Email" autoComplete="false" onChange={onChange} />
                             <input className="name-Font" type="text" name="deliveryName" placeholder="First Name" autoComplete="false" onChange={onChange} />
                             <input className="name-Font" type="text" name="deliveryLastName" placeholder="Last Name" autoComplete="false" onChange={onChange} />
@@ -203,6 +209,7 @@ console.log('Payment Intent Created:', paymentIntent.created);
                 <div className='payment__section'>
                     <div className="payment__title">
                         <h3>Payment Method</h3>
+                        <h2>Enter test card number 424242424242424</h2>
                     </div>
                     <div className="payment__details">
                         {/* Stripe magic will go */}

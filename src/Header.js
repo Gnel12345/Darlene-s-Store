@@ -30,6 +30,7 @@ function Header() {
         
         <FontAwesomeIcon icon={faDove} className="bird-icon" role="img" aria-label="bird" />
          <h1 className="header-title">Grandkids Galor</h1>
+         <h3>This website is not a real website yet</h3>
          <div className="header__search">
         <input className="header__searchInput" type="text" />
         <SearchIcon className="header__searchIcon" />
