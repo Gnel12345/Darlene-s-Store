@@ -35,10 +35,11 @@ function Payment() {
         deliveryZipCode: ""
     });
     const [check, setCheck] = useState(false);
+    const [totalWithShipping, setTotalWithShipping] = useState(getBasketTotal(basket));
 
     const shippingRates = {
-        "New York, NY": 10.0,
-        "Los Angeles, CA": 8.0,
+        "New York": 10.0,
+        "California": 8.0,
         // Add more city-state pairs and rates as needed
     };
 
@@ -56,7 +57,7 @@ function Payment() {
         }
 
         getClientSecret();
-    }, [basket]);
+    }, [basket, stripe]);
 
     console.log('THE SECRET IS >>>', clientSecret);
     console.log('👱', user);
@@ -66,16 +67,43 @@ function Payment() {
         event.preventDefault();
 
         setProcessing(true);
-        
-
 
         const payload = await stripe.confirmCardPayment(clientSecret, {
             payment_method: {
                 card: elements.getElement(CardElement),
-                
             },
-        }).then(({paymentIntent}) => {
+            shipping: {
+                name: state.deliveryName,
+                address: {
+                    line1: state.deliveryAddress,
+                    city: state.deliveryCity,
+                    state: state.deliveryState,
+                    postal_code: state.deliveryZipCode,
+                    country: 'US',
+                },
+            },
+        }).then(async ({ paymentIntent }) => {
             // paymentIntent = payment confirmation
+
+            
+
+            // Move this line inside the then block
+            
+
+            const updatedPaymentIntent = await stripe.paymentIntents.create({
+                amount: totalWithShipping * 100, // Convert to subunits
+                currency: "usd",
+                shipping: {
+                    name: state.deliveryName,
+                    address: {
+                        line1: state.deliveryAddress,
+                        city: state.deliveryCity,
+                        state: state.deliveryState,
+                        postal_code: state.deliveryZipCode,
+                        country: 'US',
+                    },
+                },
+            });
             console.log('User UID:', user?.uid);
 console.log('Basket:', basket);
 console.log('Payment Intent ID:', paymentIntent.id);
@@ -129,10 +157,13 @@ console.log('Payment Intent Created:', paymentIntent.created);
             dispatch({
                 type: 'EMPTY_BASKET',
             });
+            setTotalWithShipping(totalWithShipping);
 
             history.replace('/orders');
         });
     };
+
+    
 
     const handleChange = event => {
         // Listen for changes in the CardElement
@@ -147,6 +178,9 @@ console.log('Payment Intent Created:', paymentIntent.created);
             ...prevState,
             [name]: value,
         }));
+        const shippingRate = shippingRates[`${state.deliveryState}`] || 0.0;
+        setTotalWithShipping(getBasketTotal(basket) + shippingRate);
+            
     }
 
     return (
@@ -165,7 +199,7 @@ console.log('Payment Intent Created:', paymentIntent.created);
                     </div>
                     <div className='payment__address'>
                         <form>
-                        <h2>Enter your email so you can recieve a confirmation email</h2>
+                        <h2>Enter New York or California for shipping total</h2>
                             <input type="email" name="customerEmail" placeholder="Email" autoComplete="false" onChange={onChange} />
                             <input className="name-Font" type="text" name="deliveryName" placeholder="First Name" autoComplete="false" onChange={onChange} />
                             <input className="name-Font" type="text" name="deliveryLastName" placeholder="Last Name" autoComplete="false" onChange={onChange} />
@@ -175,7 +209,7 @@ console.log('Payment Intent Created:', paymentIntent.created);
                             <input className="name-Font" type="text" name="deliveryZipCode" placeholder="Zip Code" autoComplete="false" onChange={onChange} />
                             <input className="name-Font" type="text" name="deliveryPhone" placeholder="Phone" autoComplete="false" onChange={onChange} />
 
-                            <h1>Delivery Address</h1>
+                            <h1>Shipping Address</h1>
                             <div className="check">
                                 <label htmlFor='checkbox' >Same as Delivery Address</label>
                                 <input type="checkbox" value="false" name="checkbox" onChange={() => setCheck(!check)} />
@@ -228,7 +262,7 @@ console.log('Payment Intent Created:', paymentIntent.created);
                                         <h3>Order Total: {value}</h3>
                                     )}
                                     decimalScale={2}
-                                    value={getBasketTotal(basket)}
+                                    value={totalWithShipping}
                                     displayType={"text"}
                                     thousandSeparator={true}
                                     prefix={"$"}
