@@ -8,6 +8,7 @@ import CurrencyFormat from "react-currency-format";
 import { getBasketTotal } from "./reducer";
 import axios from './axios';
 import { db } from "./firebase";
+import StateDropdown from './StateDropdown';
 
 import emailjs from 'emailjs-com';
 
@@ -36,6 +37,7 @@ function Payment() {
     });
     const [check, setCheck] = useState(false);
     const [totalWithShipping, setTotalWithShipping] = useState(getBasketTotal(basket));
+    const [selectedState, setSelectedState] = useState('');
 
     const shippingRates = {
         "New York": 10.0,
@@ -77,12 +79,12 @@ function Payment() {
                 address: {
                     line1: state.deliveryAddress,
                     city: state.deliveryCity,
-                    state: state.deliveryState,
+                    state: selectedState,
                     postal_code: state.deliveryZipCode,
                     country: 'US',
                 },
             },
-        }).then(async ({ paymentIntent }) => {
+        }).then( ({ paymentIntent }) => {
             // paymentIntent = payment confirmation
 
             
@@ -90,20 +92,7 @@ function Payment() {
             // Move this line inside the then block
             
 
-            const updatedPaymentIntent = await stripe.paymentIntents.create({
-                amount: totalWithShipping * 100, // Convert to subunits
-                currency: "usd",
-                shipping: {
-                    name: state.deliveryName,
-                    address: {
-                        line1: state.deliveryAddress,
-                        city: state.deliveryCity,
-                        state: state.deliveryState,
-                        postal_code: state.deliveryZipCode,
-                        country: 'US',
-                    },
-                },
-            });
+            
             console.log('User UID:', user?.uid);
 console.log('Basket:', basket);
 console.log('Payment Intent ID:', paymentIntent.id);
@@ -163,7 +152,16 @@ console.log('Payment Intent Created:', paymentIntent.created);
         });
     };
 
-    
+    const handleStateChange = (e) => {
+        setSelectedState(e.target.value);
+        setState((prevState) => ({
+            ...prevState,
+            deliveryState: selectedState, // Set the correct state property
+          }));
+           // Recalculate the total with shipping based on the new state
+  const shippingRate = shippingRates[selectedState] || 0.0;
+  setTotalWithShipping(getBasketTotal(basket) + shippingRate);
+      };
 
     const handleChange = event => {
         // Listen for changes in the CardElement
@@ -178,7 +176,7 @@ console.log('Payment Intent Created:', paymentIntent.created);
             ...prevState,
             [name]: value,
         }));
-        const shippingRate = shippingRates[`${state.deliveryState}`] || 0.0;
+        const shippingRate = shippingRates[value] || 0.0;
         setTotalWithShipping(getBasketTotal(basket) + shippingRate);
             
     }
@@ -204,7 +202,7 @@ console.log('Payment Intent Created:', paymentIntent.created);
                             <input className="name-Font" type="text" name="deliveryName" placeholder="First Name" autoComplete="false" onChange={onChange} />
                             <input className="name-Font" type="text" name="deliveryLastName" placeholder="Last Name" autoComplete="false" onChange={onChange} />
                             <input className="name-Font" type="text" name="deliveryAddress" placeholder="Address" autoComplete="false" onChange={onChange} />
-                            <input className="name-Font" type="text" name="deliveryState" placeholder="State" autoComplete="false" onChange={onChange} />
+                            <StateDropdown className="name-Font" type="text" name="deliveryState" placeholder="State" autoComplete="false" onChange={handleStateChange} value={state.deliveryState} />
                             <input className="name-Font" type="text" name="deliveryCity" placeholder="City" autoComplete="false" onChange={onChange} />
                             <input className="name-Font" type="text" name="deliveryZipCode" placeholder="Zip Code" autoComplete="false" onChange={onChange} />
                             <input className="name-Font" type="text" name="deliveryPhone" placeholder="Phone" autoComplete="false" onChange={onChange} />
@@ -217,7 +215,7 @@ console.log('Payment Intent Created:', paymentIntent.created);
                             <input className="name-Font" type="text" name="billingName" placeholder="First Name" autoComplete="false" value={check ? state.deliveryName : ""} />
                             <input className="name-Font" type="text" name="billingLastName" placeholder="Last Name" autoComplete="false" value={check ? state.deliveryLastName : ""} />
                             <input className="name-Font" type="text" name="billingAddress" placeholder="Address" autoComplete="false" value={check ? state.deliveryAddress : ""} />
-                            <input className="name-Font" type="text" name="billingState" placeholder="State" autoComplete="false" value={check ? state.deliveryState : ""} />
+                            <input className="name-Font" type="text" name="billingState" placeholder="State" autoComplete="false" value={check ? selectedState : ""} />
                             <input className="name-Font" type="text" name="billingCity" placeholder="City" autoComplete="false" value={check ? state.deliveryCity : ""} />
                             <input className="name-Font" type="text" name="deliveryZipCodee" placeholder="Zip Code" autoComplete="false" value={check ? state.deliveryZipCode : ""} />
                             <input className="name-Font" type="text" name="billingPhone" placeholder="Phone" autoComplete="false" value={check ? state.deliveryPhone : ""} />
