@@ -44,6 +44,8 @@ function Payment() {
 
     useEffect(() => {
         // generate the special stripe secret which allows us to charge a customer
+       
+        
         const getClientSecret = async () => {
             const response = await axios({
                 method: 'POST',
@@ -64,10 +66,13 @@ function Payment() {
         event.preventDefault();
 
         setProcessing(true);
+        
+
 
         const payload = await stripe.confirmCardPayment(clientSecret, {
             payment_method: {
                 card: elements.getElement(CardElement),
+                
             },
         }).then(({paymentIntent}) => {
             // paymentIntent = payment confirmation
@@ -76,6 +81,7 @@ console.log('Basket:', basket);
 console.log('Payment Intent ID:', paymentIntent.id);
 console.log('Payment Intent Amount:', paymentIntent.amount);
 console.log('Payment Intent Created:', paymentIntent.created);
+
 
             db
             .collection('users')
@@ -199,7 +205,7 @@ console.log('Payment Intent Created:', paymentIntent.created);
                                 title={item.title}
                                 image={item.image}
                                 price={item.price}
-                                rating={item.rating}
+                                
                             />
                         ))}
                     </div>

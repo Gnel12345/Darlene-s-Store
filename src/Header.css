@@ -117,6 +117,11 @@ header {
   margin-right: 10px;
 }
 
+.header__basketCount span{
+
+  font-size:16px;
+}
+
 .header__nav {
   display: flex;
   justify-content: space-evenly;

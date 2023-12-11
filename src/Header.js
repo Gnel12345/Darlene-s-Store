@@ -68,6 +68,7 @@ function Header() {
           <span>Cart</span>
             <ShoppingBasketIcon />
             <span className="header__optionLineTwo header__basketCount">
+              <span>Quantity</span>
               {basket?.length}
             </span>
           </div>
