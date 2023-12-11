@@ -28,11 +28,7 @@ function CheckOutProduct({id, image, title,price,rating}) {
                     <small>$</small>
                     <strong>{price}</strong>
                 </p>
-                <div className="checkoutProduct_rating">
-                {Array(rating).fill().map((_, i )=>(
- <p>🌟</p>
-                    ))}
-                </div>
+                
                 <button onClick={removeFromBasket}>Remove From Basket</button>
 
 

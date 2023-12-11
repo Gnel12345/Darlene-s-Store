@@ -97,9 +97,16 @@ header {
 }
 
 .header__optionBasket {
+  
+  
   display: flex;
   align-items: center;
   color: #EEAA7F;
+}
+.header__optionBasket span{
+  padding-right: 10px;
+  font-size: 16px;
+  
 }
 .header__optionBasket:hover{
   color: #ff00aa;

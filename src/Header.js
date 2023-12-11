@@ -61,13 +61,11 @@ function Header() {
           
           
           
-          <li>
-            <a href="/cart">
-            <FontAwesomeIcon icon={faShoppingCart} />
-              Cart</a>
-          </li>
+         
           <Link to="/checkout">
+         
           <div className="header__optionBasket">
+          <span>Cart</span>
             <ShoppingBasketIcon />
             <span className="header__optionLineTwo header__basketCount">
               {basket?.length}
