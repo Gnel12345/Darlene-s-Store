@@ -103,3 +103,32 @@
   background-color: #ccc;
   cursor: not-allowed;
 }
+
+/* Add these styles to your existing CSS or create a new CSS file */
+
+/* Mobile Styles */
+@media only screen and (max-width: 600px) {
+  .payment__container {
+    width: 90%;
+  }
+
+  .payment__address input,
+  .payment__address select {
+    width: 100%;
+  }
+
+  .check {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .payment__priceContainer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .payment__priceContainer button {
+    width: 100%;
+  }
+}
+
