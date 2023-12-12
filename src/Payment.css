@@ -28,3 +28,78 @@
   .payment_address .payment_items .payment_details {
     flex: 0.8;
   }
+
+  /* Add these styles to your existing CSS or create a new CSS file */
+
+.payment__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  width: 60%;
+  padding: 20px;
+  border: 2px solid orange;
+  border-radius: 10px;
+}
+
+.payment__title {
+  margin-bottom: 10px;
+}
+
+.payment__address {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.payment__address input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.payment__address select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.payment__items {
+  margin-top: 20px;
+}
+
+.payment__details {
+  margin-top: 20px;
+}
+
+.payment__priceContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.payment__priceContainer button {
+  background-color: orange;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.payment__priceContainer button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

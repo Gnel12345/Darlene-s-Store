@@ -42,6 +42,7 @@ function Payment() {
     const shippingRates = {
         "New York": 10.0,
         "California": 8.0,
+        "Wisconsin" : 4.0,
         // Add more city-state pairs and rates as needed
     };
 
