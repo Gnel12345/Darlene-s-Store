@@ -19,8 +19,10 @@ function Home() {
 
 <div className = "home__row">
 <Product title ="Teenage Mutant Ninja Turtle Board Game"
+
 price={28.99}
 image={socks}
+weight={1+"lb"}
 
 />
 <Product

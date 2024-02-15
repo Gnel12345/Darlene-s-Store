@@ -3,7 +3,7 @@ import "./CheckOutProduct.css"
 import {useStateValue} from "./StateProvider"
 
 
-function CheckOutProduct({id, image, title,price,rating}) {
+function CheckOutProduct({id, image, title,price,weight}) {
 
     const removeFromBasket = () =>{
         //remove the item from the basket
@@ -23,6 +23,7 @@ function CheckOutProduct({id, image, title,price,rating}) {
 
                 <div className="checkoutProduct_info">
                 <p className="checkoutProduct_title">{title}</p>
+                <div className="checkoutProduct_weight">{weight}</div>
 
                 <p className="checkoutProduct_price">
                     <small>$</small>

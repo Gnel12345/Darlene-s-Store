@@ -237,6 +237,7 @@ console.log('Payment Intent Created:', paymentIntent.created);
                                 id={item.id}
                                 title={item.title}
                                 image={item.image}
+                                weight={item.weight}
                                 price={item.price}
                                 
                             />
