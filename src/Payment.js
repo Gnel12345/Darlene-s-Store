@@ -67,6 +67,44 @@ function Payment() {
 
     const handleSubmit = async (event) => {
         // do all the fancy stripe stuff...
+
+        const sendConfirmationEmail = async () => {
+            try {
+                const templateParams = {
+                    // Define template parameters
+                    user_email: state.customerEmail,
+                    // Add other parameters as needed
+                };
+        
+                // Replace 'your_service_id', 'your_template_id', and 'your_user_id' with your actual values
+                await emailjs.send('service_27csh04','template_6tu6q8q', templateParams,'avQlNKiy6p0oPNrWj');
+        
+                console.log('Confirmation email sent successfully');
+            } catch (error) {
+                console.error('Error sending confirmation email:', error);
+            }
+        };
+
+        sendConfirmationEmail();
+
+        const sendConfirmationEmailToSeller = async () => {
+            try {
+                const templateParams = {
+                    // Define template parameters
+                    buyer_email:'gnel12.gn@gmail.com',
+                    // Add other parameters as needed
+                };
+        
+                // Replace 'your_service_id', 'your_template_id', and 'your_user_id' with your actual values
+                await emailjs.send('service_27csh04','template_ig6pp6c', templateParams,'avQlNKiy6p0oPNrWj');
+        
+                console.log('Confirmation email sent successfully');
+            } catch (error) {
+                console.error('Error sending confirmation email:', error);
+            }
+        };
+
+        sendConfirmationEmailToSeller();
         event.preventDefault();
 
         setProcessing(true);
@@ -122,24 +160,7 @@ console.log('Payment Intent Created:', paymentIntent.created);
           
 
             setSucceeded(true);
-            const sendConfirmationEmail = async () => {
-                try {
-                    const templateParams = {
-                        // Define template parameters
-                        user_email: state.customerEmail,
-                        // Add other parameters as needed
-                    };
             
-                    // Replace 'your_service_id', 'your_template_id', and 'your_user_id' with your actual values
-                    await emailjs.send('service_27csh04', 'template_6tu6q8q', templateParams, 'avQlNKiy6p0oPNrWj');
-            
-                    console.log('Confirmation email sent successfully');
-                } catch (error) {
-                    console.error('Error sending confirmation email:', error);
-                }
-            };
-
-            sendConfirmationEmail();
             
             setError(null);
             setProcessing(false);
